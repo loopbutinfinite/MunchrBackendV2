@@ -9,6 +9,7 @@
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/bin/Debug/net9.0/Azure.Core.dll
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/bin/Debug/net9.0/Azure.Identity.dll
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/bin/Debug/net9.0/Humanizer.dll
+/Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/bin/Debug/net9.0/Microsoft.Bcl.AsyncInterfaces.dll
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/bin/Debug/net9.0/Microsoft.Build.Locator.dll
@@ -155,4 +156,3 @@
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/obj/Debug/net9.0/MunchrBackendV2.pdb
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/obj/Debug/net9.0/MunchrBackendV2.genruntimeconfig.cache
 /Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/obj/Debug/net9.0/ref/MunchrBackendV2.dll
-/Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll

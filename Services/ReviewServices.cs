@@ -40,7 +40,7 @@ namespace MunchrBackendV2.Services
             return await _dataContext.SaveChangesAsync() != 0;
         }
 
-        private async Task<ReviewModel> GetReviewByIdAsync(int id)
+        public async Task<ReviewModel> GetReviewByIdAsync(int id)
         {
             return await _dataContext.Review.FindAsync(id);
         }

@@ -28,7 +28,7 @@ namespace MunchrBackendV2.Controllers
         [HttpGet("GetReviewsById/{id}")]
         public async Task<ActionResult<IEnumerable<ReviewModel>>> GetReviewsById(int id)
         {
-            var reviews = await _reviewServices.GetReviewByUserIdAsync(id);
+            var reviews = await _reviewServices.GetReviewByIdAsync(id);
             if (reviews == null)
                 return NotFound("No reviews found.");
             return Ok(reviews);
@@ -47,15 +47,6 @@ namespace MunchrBackendV2.Controllers
         public async Task<ActionResult<IEnumerable<ReviewModel>>> GetReviewsByBusiness(int id)
         {
             var reviews = await _reviewServices.GetReviewsByBusinessAsync(id);
-            if (reviews == null)
-                return NotFound("No reviews found.");
-            return Ok(reviews);
-        }
-
-        [HttpGet("GetReviewsByDate/{date}")]
-        public async Task<ActionResult<IEnumerable<ReviewModel>>> GetReviewsByDate(DateTime date)
-        {
-            var reviews = await _reviewServices.GetReviewsByBusinessAsync(date);
             if (reviews == null)
                 return NotFound("No reviews found.");
             return Ok(reviews);
