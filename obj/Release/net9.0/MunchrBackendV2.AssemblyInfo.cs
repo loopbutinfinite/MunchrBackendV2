@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MunchrBackendV2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e799b0fdfa42a51fef8a30f11ec265e6d140150")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+35bcbc2cbe768fa2e6b8f903f20811a853e238a1")]
 [assembly: System.Reflection.AssemblyProductAttribute("MunchrBackendV2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MunchrBackendV2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

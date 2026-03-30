@@ -59,6 +59,24 @@ namespace MunchrBackendV2.Controllers
             return Ok(business);
         }
 
+        [HttpGet("GetBusinessById/{id}")]
+        public async Task<ActionResult<BusinessModel>> GetBusinessById(int id)
+        {
+            var business = await _businessServices.GetBusinessByIdAsync(id);
+            if(business == null) return NotFound();
+
+            return Ok(business);
+        }
+
+        [HttpGet("GetAllBusinesses")]
+        public async Task<ActionResult<IEnumerable<BusinessModel>>> GetAllBusinesses()
+        {
+            var businesses = await _businessServices.GetAllBusinesses();
+            if(businesses == null) return NotFound("Businesses not found.");
+
+            return Ok(businesses);
+        }
+
         [HttpGet("GetBusinessByState/{stateName}")]
         public async Task<ActionResult<IEnumerable<BusinessModel>>> GetBusinessByState(string stateName)
         {

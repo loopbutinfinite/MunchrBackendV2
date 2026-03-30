@@ -12,7 +12,7 @@ using MunchrBackendV2.Context;
 namespace MunchrBackendV2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20260326184320_init")]
+    [Migration("20260329234359_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -120,11 +120,17 @@ namespace MunchrBackendV2.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Hash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsBusinessOwner")
                         .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");

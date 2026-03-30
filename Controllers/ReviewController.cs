@@ -22,6 +22,10 @@ namespace MunchrBackendV2.Controllers
         public async Task<ActionResult<IEnumerable<ReviewModel>>> GetAllReviews()
         {
             var reviews = await _reviewServices.GetReviewsAsync();
+            if(reviews == null)
+            {
+                return NotFound("No Reviews found.");
+            }
             return Ok(reviews);
         }
 

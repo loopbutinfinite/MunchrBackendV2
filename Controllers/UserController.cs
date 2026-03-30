@@ -51,15 +51,6 @@ namespace MunchrBackendV2.Controllers
             if(success) return Ok(new {Success = true, Message = "User Created."});
 
             return BadRequest(new {Success = false, Message = "User Creation failed. Username is already in use."});
-            // var success = await _userServices.CreateAccount(user);
-
-            // if(success == false) return BadRequest("Account failed to create"); 
-
-            // return CreatedAtAction(
-            //     nameof(GetUserByUsername),
-            //     new {id = user.Username},
-            //     user
-            // );
         }
         
         [HttpPost("Login")]

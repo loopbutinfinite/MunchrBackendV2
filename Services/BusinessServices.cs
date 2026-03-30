@@ -43,9 +43,14 @@ namespace MunchrBackendV2.Services
             return await _dataContext.SaveChangesAsync() != 0;
         }
 
-        private async Task<BusinessModel> GetBusinessByIdAsync(int id)
+        public async Task<BusinessModel> GetBusinessByIdAsync(int id)
         {
             return await _dataContext.Business.FindAsync(id);
+        }
+
+        public async Task<List<BusinessModel>> GetAllBusinesses()
+        {
+            return await _dataContext.Business.ToListAsync();
         }
 
         public async Task<BusinessModel> GetBusinessInfoByBusinessNameAsync(string businessName) => await _dataContext.Business.SingleOrDefaultAsync(business => business.BusinessName == businessName);
