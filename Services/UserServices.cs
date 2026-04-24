@@ -33,6 +33,11 @@ namespace MunchrBackendV2.Services
             UserModel user = new();
             PasswordDTO EncryptedPassword = HashPassword(newUser.Password);
             user.Username = newUser.Username;
+            user.Email = newUser.Email;
+            user.FirstName = newUser.FirstName;
+            user.LastName = newUser.LastName;
+            user.PhoneNumber = newUser.PhoneNumber;
+            user.IsBusinessOwner = newUser.IsBusinessOwner;
             user.Hash = EncryptedPassword.Hash;
             user.Salt = EncryptedPassword.Salt;
 

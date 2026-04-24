@@ -64,7 +64,7 @@ namespace MunchrBackendV2.Controllers
         }
 
         [HttpDelete("DeleteUser")]
-        public async Task<ActionResult> DeleteContact(UserModel user)
+        public async Task<ActionResult> DeleteAccount(UserModel user)
         {
             var success = await _userServices.DeleteAccount(user);
 

@@ -18,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<BusinessServices>();
 builder.Services.AddScoped<ReviewServices>();
+builder.Services.AddScoped<FavoriteServices>();
 
 builder.Services.AddCors(options =>
 {

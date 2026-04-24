@@ -19,5 +19,7 @@ namespace MunchrBackendV2.Models
         public string? Salt { get; set; }
         public string? Hash { get; set; }
         public bool IsBusinessOwner { get; set; }
+        public ICollection<FavoritesModel>? Favorites { get; set; } = [];
+        public ICollection<ReviewModel>? Reviews { get; set; } = [];
     }
 }

@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MunchrBackendV2.Models
+namespace MunchrBackendV2.Models.DTOs
 {
-    public class BusinessModel
+    public class BusinessDTO
     {
-        [Key]
         public int BusinessId { get; set; }
         public string? BusinessName { get; set; }
         public string? BusinessHours { get; set; }
@@ -19,7 +17,7 @@ namespace MunchrBackendV2.Models
         public string? City { get; set; }
         public string? State { get; set; }
         public int ZipCode { get; set; }
-        public ICollection<ReviewModel> BusinessReviews { get; set;} = [];
-        public ICollection<FavoritesModel>? Favorites { get; set; }
+        public List<ReviewDTO> BusinessReviews { get; set;} = [];
+        public List<FavoritesDTO>? Favorites { get; set; } = [];
     }
 }
