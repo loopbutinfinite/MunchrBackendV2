@@ -17,7 +17,13 @@ namespace MunchrBackendV2.Models.DTOs
         public string? City { get; set; }
         public string? State { get; set; }
         public int ZipCode { get; set; }
-        public List<ReviewDTO> BusinessReviews { get; set;} = [];
+
+        public int UserId { get; set; }
+        public string? OwnerFirstName { get; set; }
+        public string? OwnerLastName { get; set; }
+        public string? OwnerUsername { get; set; }
+
+        public List<ReviewDTO> BusinessReviews { get; set; } = [];
         public List<FavoritesDTO>? Favorites { get; set; } = [];
     }
 }

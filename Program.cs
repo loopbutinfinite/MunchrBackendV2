@@ -22,7 +22,7 @@ builder.Services.AddScoped<FavoriteServices>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowAllPolicy", policy =>
     {
         policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
     });
@@ -75,7 +75,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors("AllowAll");
+app.UseCors("AllowAllPolicy");
 
 app.MapControllers();
 
