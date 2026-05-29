@@ -19,7 +19,7 @@ namespace MunchrBackendV2.Services
     public class UserServices
     {
         private readonly DataContext _dataContext;
-        private readonly IConfiguration _config;//To access our appsettings.json to access "JWT"
+        private readonly IConfiguration _config;
         public UserServices(DataContext dataContext, IConfiguration config)
         {
             _dataContext = dataContext;
@@ -28,7 +28,7 @@ namespace MunchrBackendV2.Services
 
         public async Task<bool> CreateAccount(UserDTO newUser)
         {
-            if(await DoesUserExist(newUser.Username)) return false;
+            if (await DoesUserExist(newUser.Username)) return false;
 
             UserModel user = new();
             PasswordDTO EncryptedPassword = HashPassword(newUser.Password);
@@ -45,13 +45,70 @@ namespace MunchrBackendV2.Services
             return await _dataContext.SaveChangesAsync() != 0;
         }
 
-        public async Task<string> Login (UserDTO user)
+        public async Task<bool> ChangePassword(ChangePasswordDTO request)
+        {
+            var user = await _dataContext.User
+                .FirstOrDefaultAsync(u => u.Username == request.Username);
+
+            if (user == null)
+                return false;
+
+            bool isPasswordCorrect = VerifyPassword(
+                request.CurrentPassword,
+                user.Salt,
+                user.Hash
+            );
+
+            if (!isPasswordCorrect)
+                return false;
+
+            PasswordDTO encryptedPassword = HashPassword(request.NewPassword);
+
+            user.Salt = encryptedPassword.Salt;
+            user.Hash = encryptedPassword.Hash;
+
+            return await _dataContext.SaveChangesAsync() != 0;
+        }
+
+        public async Task<bool> UpdateUserProfile(int userId, UpdateUserProfileDTO updatedUser)
+        {
+            if (string.IsNullOrWhiteSpace(updatedUser.Username))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(updatedUser.Email))
+                return false;
+
+            var user = await _dataContext.User
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null)
+                return false;
+
+            var usernameTaken = await _dataContext.User
+                .AnyAsync(u => u.Username == updatedUser.Username && u.UserId != userId);
+
+            if (usernameTaken)
+                return false;
+
+            var emailTaken = await _dataContext.User
+                .AnyAsync(u => u.Email == updatedUser.Email && u.UserId != userId);
+
+            if (emailTaken)
+                return false;
+
+            user.Username = updatedUser.Username.Trim();
+            user.Email = updatedUser.Email.Trim();
+
+            return await _dataContext.SaveChangesAsync() != 0;
+        }
+
+        public async Task<string> Login(UserDTO user)
         {
             UserModel currentUser = await GetUserInfoByUsernameAsync(user.Username);
-            
-            if(currentUser == null) return null;
 
-            if(!VerifyPassword(user.Password, currentUser.Salt, currentUser.Hash)) return null;
+            if (currentUser == null) return null;
+
+            if (!VerifyPassword(user.Password, currentUser.Salt, currentUser.Hash)) return null;
 
             return GenerateJWT(new List<Claim>());
         }
@@ -81,9 +138,10 @@ namespace MunchrBackendV2.Services
             };
         }
 
-        public async Task<bool> DeleteAccount(UserModel userToDelete){
+        public async Task<bool> DeleteAccount(UserModel userToDelete)
+        {
             _dataContext.User.Remove(userToDelete);
-            return await _dataContext.SaveChangesAsync() !=0;
+            return await _dataContext.SaveChangesAsync() != 0;
         }
 
         private string GenerateJWT(List<Claim> claims)
@@ -108,7 +166,7 @@ namespace MunchrBackendV2.Services
 
             string checkHash;
 
-            using(var derivedBytes = new Rfc2898DeriveBytes(password, saltByte, 310000, HashAlgorithmName.SHA256))
+            using (var derivedBytes = new Rfc2898DeriveBytes(password, saltByte, 310000, HashAlgorithmName.SHA256))
             {
                 checkHash = Convert.ToBase64String(derivedBytes.GetBytes(32));
                 return hash == checkHash;
@@ -121,7 +179,7 @@ namespace MunchrBackendV2.Services
         {
             return await _dataContext.User.SingleOrDefaultAsync(user => user.UserId == id);
         }
-        
+
         public async Task<List<UserModel>> GetAllUsers()
         {
             return await _dataContext.User.ToListAsync();
@@ -129,7 +187,7 @@ namespace MunchrBackendV2.Services
 
         public async Task<UserInfo> GetUserByUsername(string username)
         {
-            var currentUser = await _dataContext.User.SingleOrDefaultAsync(user => user.Username ==username);
+            var currentUser = await _dataContext.User.SingleOrDefaultAsync(user => user.Username == username);
 
             UserInfo user = new();
             user.Id = currentUser.UserId;

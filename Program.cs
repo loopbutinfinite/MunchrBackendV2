@@ -19,10 +19,11 @@ builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<BusinessServices>();
 builder.Services.AddScoped<ReviewServices>();
 builder.Services.AddScoped<FavoriteServices>();
+builder.Services.AddScoped<MenuItemServices>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllPolicy", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
         policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
     });
@@ -71,11 +72,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Skip HTTPS redirection in Development so the frontend can call the plain
+// http://localhost port without tripping over the untrusted dev certificate.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
+// CORS must run before authorization so preflight (OPTIONS) requests succeed.
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
-
-app.UseCors("AllowAllPolicy");
 
 app.MapControllers();
 

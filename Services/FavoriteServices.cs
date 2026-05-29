@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MunchrBackendV2.Context;
 using MunchrBackendV2.Models;
+using MunchrBackendV2.Models.DTOs;
 
 namespace MunchrBackendV2.Services
 {
@@ -22,60 +23,25 @@ namespace MunchrBackendV2.Services
         {
             return await _dataContext.FavoriteBusinesses.ToListAsync();
         }
-        
+
         // public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetFavoritesByUserId(int id)
         // {
         //     return await _dataContext.FavoriteBusinesses.Where(favorite => favorite.UserId == id).ToListAsync();
         // }
 
-        public async Task<List<FavoritesModel>> GetFavoritesByUserId(int id)
+        public async Task<List<FavoritesDTO>> GetFavoritesByUserId(int userId)
         {
             return await _dataContext.FavoriteBusinesses
-                .Where(favorite => favorite.UserId == id)
-                .Select(favorite => new FavoritesModel
+                .Where(favorite => favorite.UserId == userId)
+                .Select(favorite => new FavoritesDTO
                 {
                     Id = favorite.Id,
                     UserId = favorite.UserId,
-                    BusinessId = favorite.BusinessId,
-
-                    User = new UserModel
-                    {
-                        UserId = favorite.User.UserId,
-                        UserProfileImage = favorite.User.UserProfileImage,
-                        FirstName = favorite.User.FirstName,
-                        LastName = favorite.User.LastName,
-                        Username = favorite.User.Username,
-                        PhoneNumber = favorite.User.PhoneNumber,
-                        Email = favorite.User.Email,
-                        IsBusinessOwner = favorite.User.IsBusinessOwner,
-
-                        // Important: do NOT include Favorites here.
-                        // This prevents circular JSON loops.
-                        Favorites = null,
-                        Reviews = null
-                    },
-
-                    Business = new BusinessModel
-                    {
-                        BusinessId = favorite.Business.BusinessId,
-                        BusinessName = favorite.Business.BusinessName,
-                        BusinessHours = favorite.Business.BusinessHours,
-                        BusinessPhoneNumber = favorite.Business.BusinessPhoneNumber,
-                        BusinessDescription = favorite.Business.BusinessDescription,
-                        Category = favorite.Business.Category,
-                        StreetName = favorite.Business.StreetName,
-                        City = favorite.Business.City,
-                        State = favorite.Business.State,
-                        ZipCode = favorite.Business.ZipCode,
-
-                        // Important: do NOT include Favorites here.
-                        // This prevents circular JSON loops.
-                        Favorites = null,
-                        BusinessReviews = null
-                    }
+                    BusinessId = favorite.BusinessId
                 })
                 .ToListAsync();
         }
+
         public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetFavoritesById(int id)
         {
             return await _dataContext.FavoriteBusinesses.Where(favorite => favorite.Id == id).ToListAsync();
@@ -92,40 +58,45 @@ namespace MunchrBackendV2.Services
         //     return await _dataContext.SaveChangesAsync() != 0;
         // }
 
-        public async Task<FavoritesModel?> AddFavorite(FavoritesModel favorite)
+        public async Task<bool> AddFavorite(FavoriteCreateDTO favorite)
         {
-            bool alreadyFavorited = await _dataContext.FavoriteBusinesses
+            var alreadyExists = await _dataContext.FavoriteBusinesses
                 .AnyAsync(f => f.UserId == favorite.UserId && f.BusinessId == favorite.BusinessId);
 
-            if (alreadyFavorited)
+            if (alreadyExists)
             {
-                return await _dataContext.FavoriteBusinesses
-                    .Include(f => f.User)
-                    .Include(f => f.Business)
-                    .FirstOrDefaultAsync(f =>
-                        f.UserId == favorite.UserId &&
-                        f.BusinessId == favorite.BusinessId
-                    );
+                return true;
             }
 
-            FavoritesModel favoriteToAdd = new FavoritesModel
+            var newFavorite = new FavoritesModel
             {
                 UserId = favorite.UserId,
                 BusinessId = favorite.BusinessId
             };
 
-            await _dataContext.FavoriteBusinesses.AddAsync(favoriteToAdd);
-            await _dataContext.SaveChangesAsync();
+            await _dataContext.FavoriteBusinesses.AddAsync(newFavorite);
+            return await _dataContext.SaveChangesAsync() > 0;
+        }
 
-            return await _dataContext.FavoriteBusinesses
-                .Include(f => f.User)
-                .Include(f => f.Business)
-                .FirstOrDefaultAsync(f => f.Id == favoriteToAdd.Id);
-        }
-        public async Task<bool> RemoveFavorite([FromBody] FavoritesModel favorite)
+        // public async Task<bool> RemoveFavorite([FromBody] FavoritesModel favorite)
+        // {
+        //     _dataContext.FavoriteBusinesses.Remove(favorite);
+        //     return await _dataContext.SaveChangesAsync() != 0;
+        // }
+
+        public async Task<bool> DeleteFavorite(int userId, int businessId)
         {
+            var favorite = await _dataContext.FavoriteBusinesses
+                .FirstOrDefaultAsync(f => f.UserId == userId && f.BusinessId == businessId);
+
+            if (favorite == null)
+            {
+                return false;
+            }
+
             _dataContext.FavoriteBusinesses.Remove(favorite);
-            return await _dataContext.SaveChangesAsync() != 0;
+            return await _dataContext.SaveChangesAsync() > 0;
         }
+
     }
 }

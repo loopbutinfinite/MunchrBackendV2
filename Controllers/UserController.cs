@@ -24,9 +24,9 @@ namespace MunchrBackendV2.Controllers
         {
             var user = await _userServices.GetUserInfoByUsernameAsync(username);
 
-            if(user != null) return Ok(user);
+            if (user != null) return Ok(user);
 
-            return BadRequest(new {Message = "No user found"});
+            return BadRequest(new { Message = "No user found" });
         }
 
         [HttpGet("GetUserById/{id}")]
@@ -48,19 +48,19 @@ namespace MunchrBackendV2.Controllers
         {
             var success = await _userServices.CreateAccount(user);
 
-            if(success) return Ok(new {Success = true, Message = "User Created."});
+            if (success) return Ok(new { Success = true, Message = "User Created." });
 
-            return BadRequest(new {Success = false, Message = "User Creation failed. Username is already in use."});
+            return BadRequest(new { Success = false, Message = "User Creation failed. Username is already in use." });
         }
-        
+
         [HttpPost("Login")]
         public async Task<ActionResult<UserModel>> Login(UserDTO user)
         {
             var success = await _userServices.Login(user);
 
-            if(success != null) return Ok(new {Token = success});
+            if (success != null) return Ok(new { Token = success });
 
-            return Unauthorized(new {Message = "Login was unsuccessful"});
+            return Unauthorized(new { Message = "Login was unsuccessful" });
         }
 
         [HttpDelete("DeleteUser")]
@@ -68,9 +68,31 @@ namespace MunchrBackendV2.Controllers
         {
             var success = await _userServices.DeleteAccount(user);
 
-            if(success) return Ok(new{success});
+            if (success) return Ok(new { success });
 
-            return BadRequest(new{success});
+            return BadRequest(new { success });
+        }
+
+        [HttpPut("ChangePassword")]
+        public async Task<ActionResult<bool>> ChangePassword([FromBody] ChangePasswordDTO request)
+        {
+            var result = await _userServices.ChangePassword(request);
+
+            if (!result)
+                return BadRequest("Current password is incorrect or password could not be changed.");
+
+            return Ok(true);
+        }
+
+        [HttpPut("UpdateUserProfile/{userId}")]
+        public async Task<ActionResult<bool>> UpdateUserProfile(int userId,[FromBody] UpdateUserProfileDTO updatedUser)
+        {
+            var result = await _userServices.UpdateUserProfile(userId, updatedUser);
+
+            if (!result)
+                return BadRequest("Failed to update user profile.");
+
+            return Ok(result);
         }
     }
 }

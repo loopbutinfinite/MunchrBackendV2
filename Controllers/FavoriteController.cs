@@ -23,17 +23,6 @@ namespace MunchrBackendV2.Controllers
         public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetAllFavorites()
         {
             var favorites = await _favoriteServices.GetAll();
-            if(favorites == null)
-            {
-                return NotFound("No Favorites found.");
-            }
-            return Ok(favorites);
-        }
-
-        [HttpGet("GetFavoritesById/{id}")]
-        public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetFavoritesById(int id)
-        {
-            var favorites = await _favoriteServices.GetFavoritesById(id);
             if (favorites == null)
             {
                 return NotFound("No Favorites found.");
@@ -41,16 +30,34 @@ namespace MunchrBackendV2.Controllers
             return Ok(favorites);
         }
 
-        [HttpGet("GetFavoritesByUserId/{id}")]
-        public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetFavoritesByUserId(int id)
+        // [HttpGet("GetFavoritesById/{id}")]
+        // public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetFavoritesById(int id)
+        // {
+        //     var favorites = await _favoriteServices.GetFavoritesById(id);
+        //     if (favorites == null)
+        //     {
+        //         return NotFound("No Favorites found.");
+        //     }
+        //     return Ok(favorites);
+        // }
+
+        [HttpGet("GetFavoritesByUserId/{userId}")]
+        public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetFavoritesByUserId(int userId)
         {
-            var favorites = await _favoriteServices.GetFavoritesByUserId(id);
-            if (favorites == null)
-            {
-                return NotFound("No Favorites found.");
-            }
+            var favorites = await _favoriteServices.GetFavoritesByUserId(userId);
             return Ok(favorites);
         }
+
+        // [HttpGet("GetFavoritesByUserId/{id}")]
+        // public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetFavoritesByUserId(int id)
+        // {
+        //     var favorites = await _favoriteServices.GetFavoritesByUserId(id);
+        //     if (favorites == null || id <= 0)
+        //     {
+        //         return NotFound("No Favorites found.");
+        //     }
+        //     return Ok(favorites);
+        // }
 
         [HttpGet("GetFavoritesByBusinessId/{id}")]
         public async Task<ActionResult<IEnumerable<FavoritesModel>>> GetFavoritesByBusinessId(int id)
@@ -63,25 +70,58 @@ namespace MunchrBackendV2.Controllers
             return Ok(favorites);
         }
 
-        [HttpPost("AddFavorites")]
-        public async Task<ActionResult<FavoritesModel>> AddFavorite([FromBody] FavoritesModel favorite)
+        // [HttpPost("AddFavorites")]
+        // public async Task<ActionResult<FavoritesModel>> AddFavorite([FromBody] FavoritesModel favorite)
+        // {
+        //     if (favorite.UserId <= 0 || favorite.BusinessId <= 0)
+        //     {
+        //         return BadRequest("UserId and BusinessId are required.");
+        //     }
+
+        //     var favoriteToAdd = await _favoriteServices.AddFavorite(favorite);
+
+        //     if (favoriteToAdd == null)
+        //     {
+        //         return BadRequest("Failed to add your favorite.");
+        //     }
+
+        //     return Ok(favoriteToAdd);
+        // }
+
+        [HttpPost("AddFavorite")]
+        public async Task<ActionResult<bool>> AddFavorite([FromBody] FavoriteCreateDTO favorite)
         {
-            var favoriteToAdd = await _favoriteServices.AddFavorite(favorite);
-            if (!favoriteToAdd)
+            var result = await _favoriteServices.AddFavorite(favorite);
+
+            if (!result)
             {
-                return BadRequest("Failed to add your favorite.");
+                return BadRequest("Favorite could not be added.");
             }
-            return Ok(favoriteToAdd);
+
+            return Ok(result);
         }
 
-        [HttpDelete("RemoveFavorite")]
-        public async Task<ActionResult<bool>> RemoveFavorite(FavoritesModel favorite)
-        {
-            var success = await _favoriteServices.RemoveFavorite(favorite);
-            
-            if(success) return Ok(new{success});
+        // [HttpDelete("RemoveFavorite")]
+        // public async Task<ActionResult<bool>> RemoveFavorite(FavoritesModel favorite)
+        // {
+        //     var success = await _favoriteServices.RemoveFavorite(favorite);
 
-            return BadRequest(new{success});
+        //     if (success) return Ok(new { success });
+
+        //     return BadRequest(new { success });
+        // }
+
+        [HttpDelete("DeleteFavorite/{userId}/{businessId}")]
+        public async Task<ActionResult<bool>> DeleteFavorite(int userId, int businessId)
+        {
+            var result = await _favoriteServices.DeleteFavorite(userId, businessId);
+
+            if (!result)
+            {
+                return NotFound("Favorite was not found.");
+            }
+
+            return Ok(result);
         }
     }
 }

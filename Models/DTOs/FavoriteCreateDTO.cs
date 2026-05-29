@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace MunchrBackendV2.Models.DTOs
 {
-    public class FavoritesDTO
+    public class FavoriteCreateDTO
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
-        public int BusinessId { get; set; }
+        public int BusinessId { get; set; }   
     }
 }

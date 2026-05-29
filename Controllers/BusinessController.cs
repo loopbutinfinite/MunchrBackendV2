@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MunchrBackendV2.Models;
+using MunchrBackendV2.Models.DTOs;
 using MunchrBackendV2.Services;
 
 namespace MunchrBackendV2.Controllers
@@ -21,23 +22,33 @@ namespace MunchrBackendV2.Controllers
         }
 
         [HttpPost("CreateBusiness")]
-        public async Task<ActionResult<bool>> CreateBusiness([FromBody] BusinessModel newBusiness)
+        public async Task<ActionResult> CreateBusiness([FromBody] BusinessModel newBusiness)
         {
             var result = await _businessServices.CreateBusiness(newBusiness);
-            if (!result)
-                return BadRequest("Failed to create.");
-            
-            return Ok(result);
+            if (!result.Success)
+                return BadRequest(new { message = result.Message });
+
+            return Ok(result.Business);
         }
 
         [HttpPut("EditBusiness")]
-        public async Task<ActionResult<bool>> EditBusiness([FromBody] BusinessModel business)
+        public async Task<ActionResult> EditBusiness([FromBody] BusinessModel business)
         {
             var result = await _businessServices.EditBusinessAsync(business);
-            if (!result)
-                return NotFound("Failed to update.");
-            
-            return Ok(result);
+            if (!result.Success)
+                return BadRequest(new { message = result.Message });
+
+            return Ok(new { success = true, message = result.Message });
+        }
+
+        [HttpGet("GetBusinessByOwnerId/{ownerId}")]
+        public async Task<ActionResult<BusinessModel>> GetBusinessByOwnerId(int ownerId)
+        {
+            var business = await _businessServices.GetBusinessByOwnerId(ownerId);
+            if (business == null)
+                return NotFound("No business found for this owner.");
+
+            return Ok(business);
         }
 
         [HttpGet("GetBusinessByName/{businessName}")]

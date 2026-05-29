@@ -8,6 +8,7 @@ namespace MunchrBackendV2.Models.DTOs
     public class BusinessDTO
     {
         public int BusinessId { get; set; }
+        public int? OwnerId { get; set; }
         public string? BusinessName { get; set; }
         public string? BusinessHours { get; set; }
         public string? BusinessPhoneNumber { get; set; }
@@ -17,12 +18,6 @@ namespace MunchrBackendV2.Models.DTOs
         public string? City { get; set; }
         public string? State { get; set; }
         public int ZipCode { get; set; }
-
-        public int UserId { get; set; }
-        public string? OwnerFirstName { get; set; }
-        public string? OwnerLastName { get; set; }
-        public string? OwnerUsername { get; set; }
-
         public List<ReviewDTO> BusinessReviews { get; set; } = [];
         public List<FavoritesDTO>? Favorites { get; set; } = [];
     }

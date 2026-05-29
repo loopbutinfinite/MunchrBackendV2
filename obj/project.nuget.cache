@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hAmEquE6ExQ=",
+  "dgSpecHash": "jY+qgU0H1tk=",
   "success": true,
-  "projectFilePath": "/Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/MunchrBackendV2.csproj",
+  "projectFilePath": "/Users/brandonestrada/Documents/Code Stack Academy/Munchr-Workspace/MunchrBackendV3/MunchrBackendV2.csproj",
   "expectedPackageFiles": [
     "/Users/brandonestrada/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/brandonestrada/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",
@@ -91,9 +91,9 @@
       "code": "NU1900",
       "level": "Warning",
       "message": "Error occurred while getting package vulnerability data: Access to the path '/Users/brandonestrada/.local/share/NuGet/http-cache/670c1461c29885f9aa22c281d8b7da90845b38e4$ps:_api.nuget.org_v3_index.json/vuln_index.dat-new' is denied.",
-      "projectPath": "/Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/MunchrBackendV2.csproj",
+      "projectPath": "/Users/brandonestrada/Documents/Code Stack Academy/Munchr-Workspace/MunchrBackendV3/MunchrBackendV2.csproj",
       "warningLevel": 1,
-      "filePath": "/Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/MunchrBackendV2.csproj",
+      "filePath": "/Users/brandonestrada/Documents/Code Stack Academy/Munchr-Workspace/MunchrBackendV3/MunchrBackendV2.csproj",
       "targetGraphs": []
     }
   ]

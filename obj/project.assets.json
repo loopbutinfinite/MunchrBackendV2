@@ -4635,11 +4635,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/MunchrBackendV2.csproj",
+      "projectUniqueName": "/Users/brandonestrada/Documents/Code Stack Academy/Munchr-Workspace/MunchrBackendV3/MunchrBackendV2.csproj",
       "projectName": "MunchrBackendV2",
-      "projectPath": "/Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/MunchrBackendV2.csproj",
+      "projectPath": "/Users/brandonestrada/Documents/Code Stack Academy/Munchr-Workspace/MunchrBackendV3/MunchrBackendV2.csproj",
       "packagesPath": "/Users/brandonestrada/.nuget/packages/",
-      "outputPath": "/Users/brandonestrada/Documents/Code Stack Academy/MunchrBackendV2/obj/",
+      "outputPath": "/Users/brandonestrada/Documents/Code Stack Academy/Munchr-Workspace/MunchrBackendV3/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/brandonestrada/.nuget/NuGet/NuGet.Config"

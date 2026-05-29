@@ -54,6 +54,32 @@ namespace MunchrBackendV2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FavoriteBusinesses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    BusinessId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoriteBusinesses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavoriteBusinesses_Business_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Business",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FavoriteBusinesses_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Review",
                 columns: table => new
                 {
@@ -85,6 +111,16 @@ namespace MunchrBackendV2.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_FavoriteBusinesses_BusinessId",
+                table: "FavoriteBusinesses",
+                column: "BusinessId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoriteBusinesses_UserId",
+                table: "FavoriteBusinesses",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Review_BusinessModelBusinessId",
                 table: "Review",
                 column: "BusinessModelBusinessId");
@@ -98,6 +134,9 @@ namespace MunchrBackendV2.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "FavoriteBusinesses");
+
             migrationBuilder.DropTable(
                 name: "Review");
 

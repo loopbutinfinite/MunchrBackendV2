@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunchrBackendV2.Context;
 
@@ -11,9 +12,11 @@ using MunchrBackendV2.Context;
 namespace MunchrBackendV2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260416212611_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +51,6 @@ namespace MunchrBackendV2.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OwnerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
@@ -62,7 +62,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasKey("BusinessId");
 
-                    b.ToTable("Business", (string)null);
+                    b.ToTable("Business");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.FavoritesModel", b =>
@@ -85,36 +85,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FavoriteBusinesses", (string)null);
-                });
-
-            modelBuilder.Entity("MunchrBackendV2.Models.MenuItemModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BusinessId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BusinessId");
-
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("FavoriteBusinesses");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.ReviewModel", b =>
@@ -158,7 +129,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasIndex("UserReviewUserId");
 
-                    b.ToTable("Review", (string)null);
+                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.UserModel", b =>
@@ -198,7 +169,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.FavoritesModel", b =>
@@ -209,7 +180,7 @@ namespace MunchrBackendV2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MunchrBackendV2.Models.UserModel", "User")
+                    b.HasOne("MunchrBackendV2.Models.UserModel", "user")
                         .WithMany("Favorites")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -217,18 +188,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.Navigation("Business");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MunchrBackendV2.Models.MenuItemModel", b =>
-                {
-                    b.HasOne("MunchrBackendV2.Models.BusinessModel", "Business")
-                        .WithMany("MenuItems")
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Business");
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.ReviewModel", b =>
@@ -238,7 +198,7 @@ namespace MunchrBackendV2.Migrations
                         .HasForeignKey("BusinessModelBusinessId");
 
                     b.HasOne("MunchrBackendV2.Models.UserModel", "UserReview")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("UserReviewUserId");
 
                     b.Navigation("UserReview");
@@ -249,15 +209,11 @@ namespace MunchrBackendV2.Migrations
                     b.Navigation("BusinessReviews");
 
                     b.Navigation("Favorites");
-
-                    b.Navigation("MenuItems");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.UserModel", b =>
                 {
                     b.Navigation("Favorites");
-
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

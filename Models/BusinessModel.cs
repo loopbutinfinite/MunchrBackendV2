@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace MunchrBackendV2.Models
     {
         [Key]
         public int BusinessId { get; set; }
+        public int? OwnerId { get; set; }
         public string? BusinessName { get; set; }
         public string? BusinessHours { get; set; }
         public string? BusinessPhoneNumber { get; set; }

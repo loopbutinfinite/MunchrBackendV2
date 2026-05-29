@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunchrBackendV2.Context;
 
@@ -11,9 +12,11 @@ using MunchrBackendV2.Context;
 namespace MunchrBackendV2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260427175521_AddMenuItems")]
+    partial class AddMenuItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +51,6 @@ namespace MunchrBackendV2.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OwnerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
@@ -62,7 +62,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasKey("BusinessId");
 
-                    b.ToTable("Business", (string)null);
+                    b.ToTable("Business");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.FavoritesModel", b =>
@@ -85,7 +85,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FavoriteBusinesses", (string)null);
+                    b.ToTable("FavoriteBusinesses");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.MenuItemModel", b =>
@@ -114,7 +114,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasIndex("BusinessId");
 
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("MenuItems");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.ReviewModel", b =>
@@ -158,7 +158,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasIndex("UserReviewUserId");
 
-                    b.ToTable("Review", (string)null);
+                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.UserModel", b =>
@@ -198,7 +198,7 @@ namespace MunchrBackendV2.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("MunchrBackendV2.Models.FavoritesModel", b =>

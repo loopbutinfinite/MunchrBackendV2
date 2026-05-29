@@ -14,5 +14,6 @@ namespace MunchrBackendV2.Context
         public DbSet<UserModel> User { get; set; }
         public DbSet<ReviewModel> Review { get; set; }
         public DbSet<FavoritesModel> FavoriteBusinesses { get; set; }
+        public DbSet<MenuItemModel> MenuItems { get; set; }
     }
 }
